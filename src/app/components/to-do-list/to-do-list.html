@@ -4,16 +4,15 @@
     </div>
 
   <div class="tasks-add">
-    <input type="text" class="task-input" placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
-    <button class="btn-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() == null"></button>
+    <mat-form-field>
+      <input matInput placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
+    </mat-form-field>
+    <button class="button button-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() === ''">+</button>
   </div>
 
     <ul class="tasks-list">
       @for (task of tasks(); track task.id; let i = $index) {
-        <li class="task-item">
-          <span class="task-text">{{ task.name }}</span>
-          <button class="btn-delete" (click)="removeTask(task.id)"></button>
-        </li>
+        <app-to-do-list-item-component [task]="task" (onDelete)="removeTask($event)"></app-to-do-list-item-component>
       } @empty {
         <li class="tasks-empty">
           <span>Нет задач</span>
