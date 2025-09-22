@@ -43,10 +43,10 @@ export class ToDoList {
   }
 
   getMaxId(): number {
-    const currentTasks = this.tasks();
-    if (currentTasks.length === 0)
+    if (this.tasks().length === 0) {
       return 1;
+    }
 
-    return Math.max(...currentTasks.map(task => task.id)) + 1;
+    return Math.max(...this.tasks().map(task => task.id)) + 1;
   }
 }
