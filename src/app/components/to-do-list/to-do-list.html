@@ -1,7 +1,7 @@
 <div class="tasks-container">
-    <div class="tasks-header">
-      <h3 class="tasks-title">Задачи</h3>
-    </div>
+  <div class="tasks-header">
+    <h3 class="tasks-title">Задачи</h3>
+  </div>
 
   <div class="tasks-add">
     <mat-form-field>
@@ -10,13 +10,13 @@
     <button class="button button-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() === ''">+</button>
   </div>
 
-    <ul class="tasks-list">
-      @for (task of tasks(); track task.id; let i = $index) {
-        <app-to-do-list-item-component [task]="task" (onDelete)="removeTask($event)"></app-to-do-list-item-component>
-      } @empty {
-        <li class="tasks-empty">
-          <span>Нет задач</span>
-        </li>
-      }
-    </ul>
+  <ul class="tasks-list">
+    @for (task of tasks(); track task.id; let i = $index) {
+      <app-to-do-list-item-component [task]="task" (onDelete)="removeTask($event)"></app-to-do-list-item-component>
+    } @empty {
+      <li class="tasks-empty">
+        <span>Нет задач</span>
+      </li>
+    }
+  </ul>
 </div>
