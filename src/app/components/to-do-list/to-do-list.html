@@ -3,20 +3,24 @@
     <h3 class="tasks-title">Задачи</h3>
   </div>
 
-  <div class="tasks-add">
-    <mat-form-field>
-      <input matInput placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
-    </mat-form-field>
-    <button class="button button-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() === ''">+</button>
-  </div>
+  @if (isLoading) {
+    <app-loader></app-loader>
+  } @else {
+    <div class="tasks-add">
+      <mat-form-field>
+        <input matInput placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
+      </mat-form-field>
+      <app-button title="+" class="button button-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() === ''"></app-button>
+    </div>
 
-  <ul class="tasks-list">
-    @for (task of tasks(); track task.id; let i = $index) {
-      <app-to-do-list-item-component [task]="task" (onDelete)="removeTask($event)"></app-to-do-list-item-component>
-    } @empty {
-      <li class="tasks-empty">
-        <span>Нет задач</span>
-      </li>
-    }
-  </ul>
+    <ul class="tasks-list">
+      @for (task of tasks(); track task.id; let i = $index) {
+        <app-to-do-list-item-component [task]="task" (buttonDelete)="removeTask($event)"></app-to-do-list-item-component>
+      } @empty {
+        <li class="tasks-empty">
+          <span>Нет задач</span>
+        </li>
+      }
+    </ul>
+  }
 </div>

@@ -39,9 +39,11 @@
   }
 }
 
-//Сделать кнопку добавления списка неактивной если в Input элемент ни чего не введено. Добавить к кнопке стили для disabled состояния: opacity 0.5
+//Сделать кнопку добавления списка неактивной если в Input элемент ничего не введено. Добавить к кнопке стили для disabled состояния: opacity 0.5
 .button-add:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: aqua;
   transform: none !important;
 }
+
