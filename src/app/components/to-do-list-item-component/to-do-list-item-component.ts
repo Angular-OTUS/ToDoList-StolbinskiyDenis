@@ -14,5 +14,12 @@ import {Button} from '../button/button';
 })
 export class ToDoListItemComponent {
   @Input({ required: true }) task!: Task;
+  @Input() selectedItemId: number | null = null;
+
   @Output() buttonDelete = new EventEmitter<number>();
+  @Output() itemSelected = new EventEmitter<number>();
+
+  isSelected(): boolean {
+    return this.selectedItemId === this.task.id;
+  }
 }

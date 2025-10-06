@@ -1,4 +1,10 @@
-<li class="task-item">
-  <span class="task-text">{{ task.name }}</span>
-  <app-button class="button button-delete" title="-" (click)="buttonDelete.emit(task.id)"></app-button>
+<li class="task-item"
+    [class.selected]="isSelected()"
+    (click)="itemSelected.emit(task.id)"
+>
+  <div class="task">
+    <span class="task-text">{{ task.name }}</span>
+    <app-button hint = "Удалить задачу" class="button button-delete" title="-"
+                (click)="buttonDelete.emit(task.id); $event.stopPropagation()"></app-button>
+  </div>
 </li>
