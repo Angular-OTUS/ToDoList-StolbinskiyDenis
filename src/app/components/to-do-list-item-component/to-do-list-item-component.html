@@ -3,7 +3,7 @@
     (click)="itemSelected.emit(task.id)"
 >
   <div class="task">
-    <span class="task-text">{{ task.name }}</span>
+    <span [appTooltip]= task.name  class="task-text">{{ task.name }}</span>
     <app-button hint = "Удалить задачу" class="button button-delete" title="-"
                 (click)="buttonDelete.emit(task.id); $event.stopPropagation()"></app-button>
   </div>
