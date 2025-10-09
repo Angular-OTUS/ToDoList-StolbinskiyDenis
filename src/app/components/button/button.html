@@ -1,3 +1,7 @@
-<button (click)="onClick()" [type]="type" [class]="class" [disabled]="disabled">
+<button [appTooltip]="hint"
+        (click)="onClick()"
+        [type]="type"
+        [class]="class"
+        [disabled]="disabled">
   {{ title }}
 </button>

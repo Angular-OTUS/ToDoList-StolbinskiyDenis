@@ -6,6 +6,7 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 @use "app/components/button/button";
+@use "app/shared/directives/tooltip";
 
 html {
   @include mat.theme((

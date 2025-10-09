@@ -6,21 +6,50 @@
   @if (isLoading) {
     <app-loader></app-loader>
   } @else {
-    <div class="tasks-add">
-      <mat-form-field>
-        <input matInput placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
-      </mat-form-field>
-      <app-button title="+" class="button button-add" (click)="addTask(newTaskName)" [disabled]="newTaskName.trim() === ''"></app-button>
-    </div>
+    <div class="tasks-content">
+      <div class="tasks-main">
+        <div class='inputs-block'>
+          <div class='inputs-field'>
+            <mat-form-field appearance="outline">
+              <mat-label>Название задачи</mat-label>
+              <input matInput placeholder="Введите название задачи..." [(ngModel)]="newTaskName">
+            </mat-form-field>
 
-    <ul class="tasks-list">
-      @for (task of tasks(); track task.id; let i = $index) {
-        <app-to-do-list-item-component [task]="task" (buttonDelete)="removeTask($event)"></app-to-do-list-item-component>
-      } @empty {
-        <li class="tasks-empty">
-          <span>Нет задач</span>
-        </li>
+            <mat-form-field appearance="outline">
+              <mat-label>Описание задачи</mat-label>
+              <textarea
+                matInput
+                placeholder="Введите описание задачи..."
+                [(ngModel)]="newTaskDescription"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <app-button hint = "Добавить новую задачу" title="+" class="button button-add" (click)="addTask(newTaskName, newTaskDescription)"
+                      [disabled]="newTaskName.trim() === ''"></app-button>
+        </div>
+
+        <ul class="tasks-list">
+          @for (task of tasks(); track task.id; let i = $index) {
+            <app-to-do-list-item-component [task]="task"
+                                           [selectedItemId]="selectedItemId"
+                                           (buttonDelete)="removeTask($event)"
+                                           (itemSelected)="toggleItem($event)"
+            ></app-to-do-list-item-component>
+          } @empty {
+            <li class="tasks-empty">
+              <span>Нет задач</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      @if (selectedItemId !== null) {
+        <div class="selected-task-details">
+          <h4>Детали задачи</h4>
+          <p><strong>Описание:</strong> {{ getTaskDescription() }}</p>
+        </div>
       }
-    </ul>
+    </div>
   }
 </div>

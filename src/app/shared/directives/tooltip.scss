@@ -1,0 +1,11 @@
+.app-tooltip {
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  white-space: nowrap;
+  pointer-events: none;
+}
