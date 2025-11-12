@@ -1,10 +1,39 @@
-<li class="task-item"
-    [class.selected]="isSelected()"
-    (click)="itemSelected.emit(task.id)"
->
-  <div class="task">
-    <span [appTooltip]= task.name  class="task-text">{{ task.name }}</span>
-    <app-button hint = "Удалить задачу" class="button button-delete" title="-"
-                (click)="buttonDelete.emit(task.id); $event.stopPropagation()"></app-button>
-  </div>
-</li>
+@if (isEdit) {
+  <li class="task-item editing">
+    <div class="task-edit">
+      <input
+        type="text"
+        [(ngModel)]="task.name"
+        class="edit-input"
+        #editInput
+      >
+      <div class="edit-actions">
+        <app-button
+          hint="Сохранить"
+          class="button button-save"
+          title="✓"
+          (click)="updateTask(editInput.value); $event.stopPropagation()"
+        ></app-button>
+        <app-button
+          hint="Отменить"
+          class="button button-cancel"
+          title="✕"
+          (click)="cancelEdit(); $event.stopPropagation()"
+        ></app-button>
+      </div>
+    </div>
+  </li>
+} @else {
+  <li class="task-item"
+      [class.selected]="isSelected()"
+      (click)="itemSelected.emit(task.id)"
+      (dblclick)="editTask()"
+  >
+    <div class="task">
+      <span [appTooltip]= task.name  class="task-text">{{ task.name }}</span>
+      <app-button hint = "Удалить задачу" class="button button-delete" title="-"
+                  (click)="buttonDelete.emit(task.id); $event.stopPropagation()"></app-button>
+    </div>
+  </li>
+}
+

@@ -24,6 +24,16 @@ export class TooltipDirective {
     this.hideTooltip();
   }
 
+  @HostListener('click')
+  onClick(): void {
+    this.hideTooltip();
+  }
+
+  @HostListener('blur')
+  onBlur(): void {
+    this.hideTooltip();
+  }
+
   private showTooltip(): void {
     this.tooltipElement = document.createElement('div');
     this.tooltipElement.className = 'app-tooltip';
