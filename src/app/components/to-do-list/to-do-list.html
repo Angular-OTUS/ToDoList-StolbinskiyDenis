@@ -3,7 +3,7 @@
     <h3 class="tasks-title">Задачи</h3>
   </div>
 
-  @if (isLoading) {
+  @if (isLoading()) {
     <app-loader></app-loader>
   } @else {
     <div class="tasks-content">
@@ -32,10 +32,10 @@
         <ul class="tasks-list">
           @for (task of tasks; track task.id; let i = $index) {
             <app-to-do-list-item-component [task]="task"
-                                           [selectedItemId]="selectedItemId"
+                                           [selectedItemId]="selectedItemId()"
                                            (buttonDelete)="removeTask($event)"
                                            (itemSelected)="toggleItem($event)"
-                                           (updateTaskEvent) ="updateTaskTitle($event)"
+                                           (updateTaskEvent)="updateTaskTitle($event)"
             ></app-to-do-list-item-component>
           } @empty {
             <li class="tasks-empty">

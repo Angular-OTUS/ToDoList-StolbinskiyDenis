@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ToDoListItemComponent} from '../to-do-list-item-component/to-do-list-item-component';
 import {Task} from '../../interfaces/task.intarface';
@@ -24,44 +24,46 @@ import {ToastService} from '../../services/toasts-service';
   styleUrl: './to-do-list.scss',
 })
 export class ToDoList implements OnInit {
-  private cdr = inject(ChangeDetectorRef)
   private service = inject(ToDoListService)
   private serviceToasts = inject(ToastService)
   newTaskName = '';
   newTaskDescription = '';
-  isLoading = true;
-  selectedItemId: number | null = null;
+  isLoading = signal(true);
+  selectedItemId = signal<number | null>(null);
   tasks: Task[] = [];
 
   ngOnInit(): void {
     this.serviceToasts.showToast("Загружаемся")
     setTimeout(() => {
-      this.isLoading = false;
-      this.cdr.detectChanges();
+      this.isLoading.set(false);
     }, 500);
     this.tasks = this.service.getAll()
   }
 
-  selectItem(taskId: number): void {
+  selectItem(taskId: number | null): void {
     this.serviceToasts.showToast("Выбрали дело " + taskId)
-    this.selectedItemId = taskId;
+    this.selectedItemId.set(taskId);
   }
 
-  toggleItem(taskId: number) {
-    if (this.selectedItemId === taskId) {
-      this.selectedItemId = null;
+  toggleItem(taskId: number | null) {
+    if (this.selectedItemId() === taskId) {
+      this.selectedItemId.set(null);
     } else {
       this.selectItem(taskId);
     }
   }
 
   getTaskDescription() {
-    return this.tasks.find(task => task.id === this.selectedItemId)?.description;
+    return this.tasks.find(task => task.id === this.selectedItemId())?.description; // вызываем сигнал
   }
 
   removeTask(id: number) {
     this.service.removeTask(id)
     this.serviceToasts.showToast("Удалили " + id)
+    this.tasks = this.service.getAll();
+    if (this.selectedItemId() === id) {
+      this.selectedItemId.set(null);
+    }
   }
 
   addTask(name: string, description: string) {
@@ -69,11 +71,15 @@ export class ToDoList implements OnInit {
     this.newTaskName = '';
     this.newTaskDescription = '';
     this.serviceToasts.showToast("Добавили новое дело")
+    this.tasks = this.service.getAll();
   }
 
   updateTaskTitle(newTitle: string) {
-    this.service.updateTask(this.selectedItemId, newTitle);
-    this.serviceToasts.showToast("Обноаили дело")
+    const currentId = this.selectedItemId();
+    if (currentId !== null) {
+      this.service.updateTask(currentId, newTitle);
+      this.serviceToasts.showToast("Обновили дело")
+      this.tasks = this.service.getAll();
+    }
   }
-
 }
